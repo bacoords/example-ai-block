@@ -8,6 +8,6 @@ The block uses Open AI to generate a tweet message by defining an OpenAI API key
 define( 'OPENAI_KEY', 'sk-XXXXXXXXXXXXXXXXXXXXXXXX' );
 ```
 
-## Video
+## Video Tutorial
 
 Coming soon!
