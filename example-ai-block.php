@@ -34,7 +34,11 @@ function create_block_ai_block_block_init() {
 add_action( 'init', __NAMESPACE__ . '\create_block_ai_block_block_init' );
 
 
-
+/**
+ * Register our REST endpoint.
+ *
+ * @return void
+ */
 function register_our_rest_endpoint() {
 	register_rest_route(
 		'example-ai-block/v1',
@@ -51,6 +55,13 @@ function register_our_rest_endpoint() {
 add_action( 'rest_api_init', __NAMESPACE__ . '\register_our_rest_endpoint' );
 
 
+
+/**
+ * Get data from OpenAI.
+ *
+ * @param array $request The request data.
+ * @return WP_REST_Response
+ */
 function get_data( $request ) {
 
 	if ( ! defined( 'OPENAI_KEY' ) ) {
@@ -169,8 +180,7 @@ function get_data( $request ) {
 
 	return new WP_REST_Response(
 		array(
-			'content' => $query,
-			'tweet'   => $text,
+			'tweet' => $text,
 		),
 		200
 	);
