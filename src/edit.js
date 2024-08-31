@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 import { ToolbarButton, Button } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 import { useEntityProp } from "@wordpress/core-data";
-
+import { useState } from "@wordpress/element";
 import { addQueryArgs } from "@wordpress/url";
 /**
  * React hook that is used to mark the block wrapper element.
@@ -37,6 +37,7 @@ export default function Edit({ setAttributes, attributes }) {
 	const [title] = useEntityProp("postType", "post", "title");
 	const [content] = useEntityProp("postType", "post", "content");
 	const [link] = useEntityProp("postType", "post", "link");
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	const fetchTweet = (e) => {
 		e.preventDefault();
@@ -52,14 +53,19 @@ export default function Edit({ setAttributes, attributes }) {
 
 		apiFetch({
 			path: addQueryArgs("/example-ai-block/v1/get-data", params),
-		}).then((data) => {
-			console.log(data);
-			setAttributes({ tweet: data.tweet });
-		});
+		})
+			.then((data) => {
+				console.log(data);
+				setAttributes({ tweet: data.tweet });
+			})
+			.catch((error) => {
+				setErrorMessage(error.error);
+			});
 	};
 
 	return (
 		<div {...useBlockProps()}>
+			{errorMessage && <p>{errorMessage}</p>}
 			{attributes.tweet ? (
 				<>
 					<BlockControls>
